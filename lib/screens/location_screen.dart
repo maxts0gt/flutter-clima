@@ -74,3 +74,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 }
+
+// String cityName = decodedData['name'];
+// int condition = decodedData['weather'][0]['id'];
+// double temp = decodedData['main']['temp'];

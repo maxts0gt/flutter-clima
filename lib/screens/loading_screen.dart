@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:clima/services/location.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:clima/services/networking.dart';
 
 var apiKey = dotenv.env['API_KEY'];
 
@@ -12,42 +11,25 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  var url = Uri.parse(
-      'https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=c25ba34f6dfe3ff883dfc2c6d617b38a');
-
+  double latitude;
+  double longitude;
   @override
   void initState() {
     super.initState();
-    getData();
-    getLocation();
+    getLocationData();
   }
 
-  void getLocation() async {
+  void getLocationData() async {
     Location location = Location();
-
     await location.getCurrentLocation();
 
-    print(location.latitude);
-    print(location.longitude);
-  }
+    latitude = location.latitude;
+    longitude = location.longitude;
 
-  void getData() async {
-    http.Response response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      String data = response.body;
-
-      var decodedData = jsonDecode(data);
-      String cityName = decodedData['name'];
-      int condition = decodedData['weather'][0]['id'];
-      double temp = decodedData['main']['temp'];
-
-      print(cityName);
-      print(condition);
-      print(temp);
-    } else {
-      print(response.statusCode);
-    }
+    Uri parsedUrl = Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&&appid=$apiKey');
+    NetworkHelper networkHelper = NetworkHelper(parsedUrl);
+    var weatherData = await networkHelper.getData();
   }
 
   @override
