@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:clima/services/location.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+var apiKey = dotenv.env['API_KEY'];
 
 class LoadingScreen extends StatefulWidget {
   @override

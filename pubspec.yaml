@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  flutter_dotenv: ^5.0.2
   flutter:
     sdk: flutter
 
@@ -27,6 +28,7 @@ flutter:
   uses-material-design: true
   assets:
   - images/
+  - .env
 
   fonts:
   - family: Spartan MB
